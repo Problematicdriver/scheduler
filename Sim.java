@@ -16,8 +16,8 @@ class Simulation {
     public final int MAX_ITER = 20000;
 
     Random rand;
-    PriorityQueue<Event> eventHeap;
-    int[] stops;
+    PriorityQueue<Event> eventHeap; // using heap to keep track of next event in chronological order
+    int[] stops;    // length of queue at each stop
     
     Simulation(int nS, int nB, int dt, int bt, double timeLim, double lam) {
         nStops = nS;
@@ -38,11 +38,13 @@ class Simulation {
     }
 
     public void init() {
+        // spwaning buses with even spaces in between
         for (int i = 0; i < nBuses; i++) {
             int nStop = i * nStops / nBuses;
             eventHeap.offer(new Arrival(0.0, nStop, i, nStop));
         } 
        
+        // spawning a person per bus stop
         for (int i = 0; i < nStops; i++) {
             eventHeap.offer(new Person(0.0, i));
         }
@@ -58,7 +60,6 @@ class Simulation {
                 System.out.printf("Sim aborted");
                 return;
             }
-            // clock = nextEvnt.getTime();
             nextEvnt.run(this);
         } while (++iter < MAX_ITER && clock <= timeLimit);
         
