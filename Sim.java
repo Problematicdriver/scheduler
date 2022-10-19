@@ -9,7 +9,7 @@ class Simulation {
     public  double drive_time;
     public  double boarding_time;
     public  double stop_time;
-    private int    lambda;
+    private double lambda;
 
     private double timeLimit;
     public static double clock;
@@ -19,7 +19,7 @@ class Simulation {
     PriorityQueue<Event> eventHeap;
     int[] stops;
     
-    Simulation(int nS, int nB, int dt, int bt, double timeLim, int lam) {
+    Simulation(int nS, int nB, int dt, int bt, double timeLim, double lam) {
         nStops = nS;
         nBuses = nB;
         timeLimit = timeLim;
@@ -34,13 +34,13 @@ class Simulation {
    }
 
     public double getNextPersonTime() {
-        return -Math.log(1-rand.nextDouble()) * lambda; 
+        return -Math.log(1-rand.nextDouble()) / lambda; 
     }
 
     public void init() {
         for (int i = 0; i < nBuses; i++) {
             int nStop = i * nStops / nBuses;
-            eventHeap.offer(new Arrival(0.0, nStop, i));
+            eventHeap.offer(new Arrival(0.0, nStop, i, nStop));
         } 
        
         for (int i = 0; i < nStops; i++) {
@@ -77,7 +77,7 @@ class Simulation {
         int dt;
         int bt;
         double timeLim;
-        int lam;
+        double lam;
 
         try {
             File myObj = new File(args[0]);
@@ -87,7 +87,7 @@ class Simulation {
             dt = Integer.parseInt(reader.nextLine());
             bt = Integer.parseInt(reader.nextLine());
             timeLim = Double.parseDouble(reader.nextLine());
-            lam = Integer.parseInt(reader.nextLine());
+            lam = Double.parseDouble(reader.nextLine()) / 60;
         } catch (FileNotFoundException e) {
             System.out.println("Source file not found");
             return;

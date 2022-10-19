@@ -1,2 +1,17 @@
+This program simulates a public transportation that consists of buses, bus stops and passengers arriving at stops and boarding buses.
+
+The program contains java source files and a example cofig file for the simulation.
+
+Cofig file comes in this format:
+    
+[number of stops]
+[number of buses]
+[drive time between stops]
+[boarding time]
+[simulation time limit]
+[passenger spawning rate]
+
+feel free to run the following command to run the simulation.
+
 chomd 755 runSim
 ./runSim
