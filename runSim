@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+printf 'compiling ... \n'
+javac Event.java Sim.java
+
+printf 'compilation successful\nrunning simulation\n'
+
+java Simulation "./config" >> output
+
+printf 'simulation finished\n'
