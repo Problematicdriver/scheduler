@@ -12,8 +12,8 @@ class Simulation {
     private double lambda;
 
     private double timeLimit;
-    public static double clock;
-    public final int MAX_ITER = 20000;
+    public  static double clock;
+    public  final int MAX_ITER = 20000;
 
     Random rand;
     PriorityQueue<Event> eventHeap; // using heap to keep track of next event in chronological order
@@ -53,6 +53,9 @@ class Simulation {
 
     void run() {
         int iter = 0;
+
+        int min = 10000, max = -1, avg = 0;
+
         do {
             Event nextEvnt = eventHeap.poll();
             System.out.println(nextEvnt.toString());
@@ -60,9 +63,19 @@ class Simulation {
                 System.out.printf("Sim aborted");
                 return;
             }
-            nextEvnt.run(this);
+            nextEvnt.run(this);           
+            for (int i = 0; i < stops.length; i++) {
+                min = Math.min(min, stops[i]);
+                max = Math.max(max, stops[i]);
+                avg += stops[i];
+            }
+
         } while (++iter < MAX_ITER && clock <= timeLimit);
         
+        avg /= (iter * stops.length);
+        System.out.println("Min queue size = " + min);
+        System.out.println("Max queue size = " + max);
+        System.out.println("Avg queue size = " + avg);
         return;
     }
 
